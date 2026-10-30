@@ -1,0 +1,23 @@
+<?xml version='1.0' encoding='utf-8'?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720" font-family="Arial, Microsoft YaHei, PingFang SC, sans-serif" font-size="24" data-pptx-master="academic" data-pptx-master-name="简约学术 · 深蓝" data-pptx-layout="02-toc" data-pptx-layout-name="目录">
+<rect id="master-background" x="0" y="0" width="1280" height="720" fill="#FFFFFF" data-pptx-layer="master" data-pptx-editable="false" />
+<rect id="toc-left" x="0" y="0" width="360" height="720" fill="#004098" data-pptx-layer="layout" data-pptx-editable="false" />
+<text id="num-1" x="420" y="115" font-size="27" fill="#004098" data-pptx-layer="layout" data-pptx-editable="false">01</text>
+<line id="row-1" x1="420" y1="202" x2="1216" y2="202" stroke="#CFD9E6" stroke-width="1" data-pptx-layer="layout" data-pptx-editable="false" />
+<text id="num-2" x="420" y="260" font-size="27" fill="#004098" data-pptx-layer="layout" data-pptx-editable="false">02</text>
+<line id="row-2" x1="420" y1="347" x2="1216" y2="347" stroke="#CFD9E6" stroke-width="1" data-pptx-layer="layout" data-pptx-editable="false" />
+<text id="num-3" x="420" y="405" font-size="27" fill="#004098" data-pptx-layer="layout" data-pptx-editable="false">03</text>
+<line id="row-3" x1="420" y1="492" x2="1216" y2="492" stroke="#CFD9E6" stroke-width="1" data-pptx-layer="layout" data-pptx-editable="false" />
+<text id="num-4" x="420" y="550" font-size="27" fill="#004098" data-pptx-layer="layout" data-pptx-editable="false">04</text>
+<line id="row-4" x1="420" y1="637" x2="1216" y2="637" stroke="#CFD9E6" stroke-width="1" data-pptx-layer="layout" data-pptx-editable="false" />
+<circle id="emblem-backing" cx="64.0" cy="64.0" r="34.0" fill="#FFFFFF" data-pptx-layer="layout" data-pptx-editable="false" /><image id="ustc-emblem" x="32" y="32" width="64" height="64" href="../images/ustc-emblem.png" data-pptx-layer="layout" data-pptx-editable="false" /><g id="title" data-pptx-placeholder="title" data-pptx-idx="1" data-pptx-bounds="48 320 264 84"><text id="title-text" data-pptx-carrier="true" x="48" y="364" font-size="44" fill="#FFFFFF" font-weight="bold">{{TITLE}}</text></g>
+<g id="subtitle" data-pptx-placeholder="subtitle" data-pptx-idx="2" data-pptx-bounds="48 420 264 76"><text id="subtitle-text" data-pptx-carrier="true" x="48" y="442" font-size="22" fill="#FFFFFF">{{SUBTITLE}}</text></g>
+<g id="toc-item-1-title" data-pptx-placeholder="body" data-pptx-idx="3" data-pptx-bounds="500 85 700 48"><text id="toc-item-1-title-text" data-pptx-carrier="true" x="500" y="113" font-size="28" fill="#172B43" font-weight="bold">{{TOC_ITEM_1_TITLE}}</text></g>
+<g id="toc-item-1-desc" data-pptx-placeholder="body" data-pptx-idx="4" data-pptx-bounds="500 141 700 50"><text id="toc-item-1-desc-text" data-pptx-carrier="true" x="500" y="163" font-size="22" fill="#5E6D80">{{TOC_ITEM_1_DESC}}</text></g>
+<g id="toc-item-2-title" data-pptx-placeholder="body" data-pptx-idx="5" data-pptx-bounds="500 230 700 48"><text id="toc-item-2-title-text" data-pptx-carrier="true" x="500" y="258" font-size="28" fill="#172B43" font-weight="bold">{{TOC_ITEM_2_TITLE}}</text></g>
+<g id="toc-item-2-desc" data-pptx-placeholder="body" data-pptx-idx="6" data-pptx-bounds="500 286 700 50"><text id="toc-item-2-desc-text" data-pptx-carrier="true" x="500" y="308" font-size="22" fill="#5E6D80">{{TOC_ITEM_2_DESC}}</text></g>
+<g id="toc-item-3-title" data-pptx-placeholder="body" data-pptx-idx="7" data-pptx-bounds="500 375 700 48"><text id="toc-item-3-title-text" data-pptx-carrier="true" x="500" y="403" font-size="28" fill="#172B43" font-weight="bold">{{TOC_ITEM_3_TITLE}}</text></g>
+<g id="toc-item-3-desc" data-pptx-placeholder="body" data-pptx-idx="8" data-pptx-bounds="500 431 700 50"><text id="toc-item-3-desc-text" data-pptx-carrier="true" x="500" y="453" font-size="22" fill="#5E6D80">{{TOC_ITEM_3_DESC}}</text></g>
+<g id="toc-item-4-title" data-pptx-placeholder="body" data-pptx-idx="9" data-pptx-bounds="500 520 700 48"><text id="toc-item-4-title-text" data-pptx-carrier="true" x="500" y="548" font-size="28" fill="#172B43" font-weight="bold">{{TOC_ITEM_4_TITLE}}</text></g>
+<g id="toc-item-4-desc" data-pptx-placeholder="body" data-pptx-idx="10" data-pptx-bounds="500 576 700 50"><text id="toc-item-4-desc-text" data-pptx-carrier="true" x="500" y="598" font-size="22" fill="#5E6D80">{{TOC_ITEM_4_DESC}}</text></g>
+</svg>

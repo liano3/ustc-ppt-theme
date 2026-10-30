@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720" font-family="Arial, Microsoft YaHei, PingFang SC, sans-serif" font-size="24" data-pptx-master="academic" data-pptx-master-name="简约学术 · 深蓝" data-pptx-layout="07-ending" data-pptx-layout-name="致谢与讨论">
+<rect id="master-background" x="0" y="0" width="1280" height="720" fill="#FFFFFF" data-pptx-layer="master" data-pptx-editable="false" />
+<rect id="ending-band" x="0" y="160" width="1280" height="270" fill="#004098" data-pptx-layer="layout" data-pptx-editable="false" /><image id="ustc-wordmark" x="32" y="32" width="360" height="60.38" href="../images/ustc-wordmark.png" data-pptx-layer="layout" data-pptx-editable="false" /><g id="thank-you" data-pptx-placeholder="title" data-pptx-idx="1" data-pptx-bounds="64 230 1152 90"><text id="thank-you-text" data-pptx-carrier="true" x="640.0" y="278" font-size="48" fill="#FFFFFF" font-weight="bold" text-anchor="middle">{{THANK_YOU}}</text></g>
+<g id="ending-subtitle" data-pptx-placeholder="subtitle" data-pptx-idx="2" data-pptx-bounds="80 350 1120 50"><text id="ending-subtitle-text" data-pptx-carrier="true" x="640.0" y="378" font-size="28" fill="#FFFFFF" text-anchor="middle">{{ENDING_SUBTITLE}}</text></g>
+<g id="contact-info" data-pptx-placeholder="body" data-pptx-idx="3" data-pptx-bounds="80 490 1120 50"><text id="contact-info-text" data-pptx-carrier="true" x="640.0" y="516" font-size="26" fill="#004098" text-anchor="middle">{{CONTACT_INFO}}</text></g>
+</svg>
