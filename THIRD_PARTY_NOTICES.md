@@ -22,5 +22,5 @@
 
 ## 工具与字体
 
-- [ppt-master](https://github.com/hugohe3/ppt-master) 用于模板制作、验证与导出，工具本身按其自身许可证分发。本仓库未打包该工具的运行代码。
+- [ppt-master](https://github.com/hugohe3/ppt-master) 用于模板制作、验证与导出。本仓库未打包完整引擎；`patches/ppt-master-6.8.0/preserve-text-width.patch` 包含针对该项目 6.8.0 的代码修改及回归测试，改动为 preserve 模式文本宽度余量、中文引号与混排边界余量。该补丁及其中的代码按 MIT 许可提供，上游版权为 Copyright (c) 2025–2026 Hugo He，许可全文保存在同目录的 `LICENSE`。模板的 CC BY-NC-SA 4.0 许可不替代补丁的 MIT 许可。
 - 模板引用 Arial、Microsoft YaHei，以及用于 SVG 预览后备的 PingFang SC。字体文件未包含在本仓库中，字体的授权由其各自权利人规定。

@@ -1,0 +1,141 @@
+--- a/scripts/svg_to_pptx/drawingml/elements.py
++++ b/scripts/svg_to_pptx/drawingml/elements.py
+@@ -2238,7 +2238,36 @@
+     # the segment that follows it. Headroom is a safety margin, so the result
+     # never falls below the run's raw advance either.
+     width += letter_spacing_px * (len(segments) - 1)
+-    return max(width, _estimate_run_text_width(run))
++    return max(width, _estimate_run_text_width(run)) + _cjk_renderer_slack(run)
++
++
++def _cjk_renderer_slack(run: dict[str, Any]) -> float:
++    """Allow East Asian quote widths and renderer-added inter-script spacing.
++
++    Some Office-compatible renderers use full-em curly quotes in Chinese runs
++    and quarter-em spacing at Latin/digit boundaries, even with explicit spaces.
++    This is frame slack only: glyph positions, raw measurements and imported
++    exact frames remain unchanged. Latin-only quotations need no correction.
++    """
++    text = str(run.get('text', ''))
++    if not any(is_cjk_char(ch) for ch in text):
++        return 0.0
++    size = font_px_to_hpt(float(run.get('font_size', 16))) / FONT_PX_TO_HUNDREDTHS_PT
++    slack = sum(
++        max(0.0, size - _estimate_run_text_width(dict(run, text=ch)))
++        for ch in text if ch in '\u2018\u2019\u201c\u201d'
++    )
++    previous = None
++    for ch in text:
++        if ch.isspace():
++            continue
++        current = 'cjk' if is_cjk_char(ch) and ch.isalnum() else (
++            'latin' if ch.isascii() and ch.isalnum() else None
++        )
++        if previous is not None and current is not None and previous != current:
++            slack += size * 0.25
++        previous = current
++    return slack
+ 
+ 
+ # Faces whose glyphs run wider than the generic advance table at the same
+@@ -2417,14 +2446,13 @@
+ ) -> float:
+     """Estimate a line of text runs.
+ 
+-    ``include_headroom`` is useful for single-line auto-fit boxes where a
++    ``include_headroom`` is useful for single-line and preserve-mode boxes where a
+     renderer that measures text slightly wider would otherwise wrap. The
+     headroom scales independently with each script segment's typeface and,
+     for Latin segments, its uppercase fraction. This keeps mixed-font and
+     mixed-script lines from inheriting the most conservative segment's
+-    multiplier. Paragraph boxes use this value as a wrapping constraint, so
+-    adding headroom there stretches the merged text frame beyond the author's
+-    source line width.
++    multiplier. Reflow paragraph boxes omit headroom because they use the
++    source line width as a wrapping constraint.
+     """
+     if any('_inline_dx' in run for run in runs):
+         # A negative dx moves the cursor back; it must not subtract space
+@@ -2631,7 +2659,12 @@
+ ) -> float:
+     line_runs, bullet = _extract_text_bullet(runs)
+     line_runs = _coalesce_text_runs(line_runs, default_fonts, ctx)
+-    width = _estimate_text_runs_width(line_runs, include_headroom=False)
++    # Preserve mode keeps authored breaks, so renderer/font differences must
++    # not introduce an extra wrap. Reflow mode still needs the raw line width
++    # as its wrapping constraint. Exact imported frames override this estimate.
++    width = _estimate_text_runs_width(
++        line_runs, include_headroom=ctx.text_flow == TEXT_FLOW_PRESERVE,
++    )
+     if bullet:
+         fs_px = float(line_runs[0].get('font_size', 16)) if line_runs else 16.0
+         width += _bullet_margin_px(bullet, fs_px)
+--- /dev/null
++++ b/scripts/tests/test_preserved_text_width.py
+@@ -0,0 +1,66 @@
++"""Keep authored Chinese line breaks under the same slack as single lines."""
++from pathlib import Path
++import sys
++import tempfile
++import unittest
++from xml.etree import ElementTree as ET
++
++sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
++from svg_to_pptx.drawingml.converter import convert_svg_to_slide_shapes
++from svg_to_pptx.drawingml.elements import _cjk_renderer_slack
++
++NS = {'a': 'http://schemas.openxmlformats.org/drawingml/2006/main',
++      'p': 'http://schemas.openxmlformats.org/presentationml/2006/main'}
++
++
++class PreservedTextWidthTests(unittest.TestCase):
++    def test_chinese_quotes_and_date_boundaries_get_targeted_slack(self):
++        run = {'font_family': 'Arial, Microsoft YaHei', 'font_size': 24}
++        self.assertGreater(_cjk_renderer_slack(dict(run, text='按“反馈”出题')), 24)
++        self.assertEqual(_cjk_renderer_slack(dict(run, text='2026 年 11 月 1 日')), 30)
++        self.assertEqual(_cjk_renderer_slack(dict(run, text='An “English” title')), 0)
++        self.assertEqual(_cjk_renderer_slack(dict(run, text='纯中文标题')), 0)
++
++    def export(self, body, mode='preserve', anchor='start', frame=''):
++        with tempfile.TemporaryDirectory() as tmp:
++            path = Path(tmp) / 'text.svg'
++            path.write_text(
++                '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 720">'
++                f'<text x="600" y="150" font-family="Arial, Microsoft YaHei" '
++                f'font-size="26" text-anchor="{anchor}" {frame}>{body}</text></svg>'
++            )
++            xml, *_ = convert_svg_to_slide_shapes(path, resource_root=Path(tmp), text_flow=mode)
++        return ET.fromstring(xml).find('.//p:sp', NS)
++
++    def geometry(self, shape):
++        xf = shape.find('p:spPr/a:xfrm', NS)
++        return int(xf.find('a:off', NS).get('x')), int(xf.find('a:ext', NS).get('cx'))
++
++    def test_preserved_lines_have_single_line_slack_and_keep_anchor(self):
++        text = '奖励集参与教师更新，V_test 始终单独保留。'
++        for anchor in ('start', 'middle', 'end'):
++            with self.subTest(anchor=anchor):
++                single = self.export(text, anchor=anchor)
++                multi = self.export(f'<tspan x="600">{text}</tspan>'
++                                    '<tspan x="600" dy="42">较短的第二行</tspan>', anchor=anchor)
++                # The same longest line must not lose its safety margin simply
++                # because a second authored line is added.
++                self.assertEqual(self.geometry(single), self.geometry(multi))
++                self.assertEqual(multi.find('p:txBody/a:bodyPr', NS).get('wrap'), 'none')
++
++    def test_reflow_retains_narrower_wrapping_constraint(self):
++        body = '<tspan x="600">同样低成功率，下一步应该怎样编辑任务？</tspan><tspan x="600" dy="42">第二行</tspan>'
++        preserved = self.export(body)
++        reflow = self.export(body, mode='reflow')
++        self.assertGreater(self.geometry(preserved)[1], self.geometry(reflow)[1])
++        self.assertEqual(reflow.find('p:txBody/a:bodyPr', NS).get('wrap'), 'square')
++
++    def test_imported_exact_frame_is_not_expanded(self):
++        body = '<tspan x="600">任务图与训练历史</tspan><tspan x="600" dy="42">第二行</tspan>'
++        for mode in ('preserve', 'reflow'):
++            shape = self.export(body, mode=mode, frame='data-pptx-frame="580 100 400 150"')
++            self.assertEqual(self.geometry(shape), (580 * 9525, 400 * 9525))
++
++
++if __name__ == '__main__':
++    unittest.main()

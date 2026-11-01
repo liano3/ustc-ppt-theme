@@ -39,6 +39,8 @@
 
 默认英文字体为 Arial，中文为 Microsoft YaHei；SVG 的 Mac 预览后备字体为 PingFang SC。字体文件未随模板分发，缺少字体可能导致换行变化。模板字号、间距与布局规则见 [design_spec.md](academic_group_meeting/templates/design_spec.md)。
 
+**遇到中文缺字、字体替换或导出后意外换行？** 见[字体渲染与导出修复](docs/font-rendering.md)。仓库提供 macOS/Linux 的字体检测与 PDF 导出脚本，以及针对 ppt-master 6.8.0 的文本框宽度兼容补丁；两者分别处理字体发现和导出宽度估算。
+
 ## 使用 ppt-master 应用模板
 
 ### 1. 安装 ppt-master
@@ -105,6 +107,8 @@ python3 -c "from pathlib import Path; print(Path('academic_group_meeting').resol
 
 交付可编辑 PPTX，并为每页添加中文演讲备注。
 请检查文字溢出、图表清晰度和章节导航状态。
+导出前按仓库 docs/font-rendering.md 检查字体与导出器兼容性；
+交付前检查实际 PPTX 导出的 PDF，不能仅以 SVG 预览作为验收。
 后续版式和制作细节由你决定。
 ```
 
@@ -137,6 +141,10 @@ ustc-ppt-theme/
 ├── README.md
 ├── LICENSE
 ├── THIRD_PARTY_NOTICES.md
+├── docs/font-rendering.md          # 字体检测、PDF 导出与兼容补丁说明
+├── scripts/render_pdf.py           # macOS/Linux 隔离字体配置与 PDF 导出
+├── patches/ppt-master-6.8.0/        # 可选导出器补丁（MIT）
+├── tests/                         # 渲染脚本的回归测试
 ├── ustc-ppt-theme.pptx              # 保留的原版
 ├── assets/                         # 原版预览
 └── academic_group_meeting/          # 交给 ppt-master 的模板根目录
@@ -156,7 +164,7 @@ ustc-ppt-theme/
 
 校徽与校名标识来自 [USTC Logo 资源页](https://jbyang1987.github.io/ustclogo/图片.html)，相关权利归原权利人；本项目许可不授予学校名称、校徽或商标的额外使用权，也不代表学校官方出品或认可。完整来源与适用范围见 [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md)。
 
-[ppt-master](https://github.com/hugohe3/ppt-master) 是独立的工具项目，遵循其自身许可证；本仓库提供模板与使用说明，不包含其运行代码或字体文件。
+[ppt-master](https://github.com/hugohe3/ppt-master) 是独立的工具项目。本仓库不打包其完整运行引擎或字体文件；可选的导出器兼容补丁单独遵循 [MIT 许可](patches/ppt-master-6.8.0/LICENSE)，模板许可保持不变。
 
 <details>
 <summary>查看原版预览</summary>

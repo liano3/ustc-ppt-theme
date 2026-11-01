@@ -114,6 +114,9 @@ placeholders:
 
 ## III. Typography
 统一字体栈：Arial, Microsoft YaHei, PingFang SC, sans-serif。Latin使用Arial，中文使用Microsoft YaHei；PingFang SC作为Mac预览后备，不嵌入字体。
+
+导出检查：SVG 的后备字体列表不等于 PPTX 内嵌字体，也不保证 Office 使用相同后备字体。制作前检查渲染环境能发现中文字体；换机演示前确认实际使用的字体。Linux 可安装 Noto Sans CJK SC 并在渲染环境中明确替换。对保留手工换行的正文，导出器应保留合理宽度余量，计入中文引号及中英／数字混排的间距；不要统一放大所有文本框、逐页缩字或改动精确占位框来掩盖测量误差。交付前检查实际 PPTX 导出的 PDF，尤其是长标题、中文日期和多行正文。仓库的 `docs/font-rendering.md` 提供环境检查脚本及版本限定的导出器补丁。
+
 | Role | SVG px | PowerPoint pt | Weight |
 |---|---:|---:|---|
 | 封面 / 尾页主标题 | 48 | 36 | Bold |

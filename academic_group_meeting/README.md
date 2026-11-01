@@ -14,4 +14,6 @@ AI使用：优先左文右图；宽幅图用上图下文；比较用双栏；特
 
 完整安装与使用提示词见[仓库 README](../README.md#使用-ppt-master-应用模板)。
 
+字体与导出：制作前确认中文字体可用；交付前检查实际 PPTX 导出的 PDF。中文缺字和意外换行的处理方法见[字体渲染与导出修复](../docs/font-rendering.md)。仓库提供字体检测与 PDF 导出脚本，以及针对 ppt-master 6.8.0 的可选宽度补丁。SVG 预览正常并不代表 Office/LibreOffice 的排版一定相同。
+
 模板及改编贡献依 [CC BY-NC-SA 4.0](../LICENSE) 分享；校徽、校名等第三方素材的来源与权利范围见 [THIRD_PARTY_NOTICES.md](../THIRD_PARTY_NOTICES.md)。
